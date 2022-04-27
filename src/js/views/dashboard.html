@@ -1,0 +1,80 @@
+<!--
+ Copyright (c) 2014, 2020, Oracle and/or its affiliates.
+ Licensed under The Universal Permissive License (UPL), Version 1.0
+ as shown at https://oss.oracle.com/licenses/upl/
+ -->
+ <div class="oj-hybrid-padding">
+  <h1>Create Your TODOs Notes</h1>
+  <div>
+    <oj-form-layout direction="column" max-columns="2">
+      <div id="form-container1" style="float: left;">
+      <oj-input-text
+      id="text-input"
+      value="{{todoInputValue}}"
+      label-hint="What's is your today's goal"
+      clear-icon="always"
+      validators="[[taskValidators]]"
+      >
+      </oj-input-text>
+      <oj-button
+      style="background-color:cyan"
+      chroming="outlined"
+      on-oj-action="[[submitInput]]"
+      disabled="[[disableControls]]">
+        <span slot="startIcon" class="oj-ux-ico-library-add"></span>
+        Add Note
+      </oj-button>
+    </div>
+    <!-- added items -->
+    <div id="form-container" >
+        <oj-bind-for-each data="[[dataProvider]]">
+          <template  data-oj-as="item">
+            <li class="oj-flex">
+              <div style="border:1px solid green; padding: 4px 4px; border-radius: 4px;margin-bottom: 5px;">
+                <oj-bind-if test="[[item.data.isCompleted === 'completed']]">
+                <div style="color: blue;  text-decoration: line-through; font-weight: bold;">
+                    <oj-bind-text value="[[item.data.title]]" ></oj-bind-text>
+                </div>
+                </oj-bind-if>
+                <oj-bind-if test="[[item.data.isCompleted !== 'completed']]">
+                  <div style="color: brown; font-weight: bold;">
+                      <oj-bind-text value="[[item.data.title]]" ></oj-bind-text>
+                  </div>
+                  </oj-bind-if>
+              <oj-bind-if test="[[item.data.isCompleted === 'completed']]">
+              <div  style="color: blue; text-decoration: line-through;  font-size: small;">
+              <oj-bind-text value="[[item.data.names]]"></oj-bind-text>
+              </div>
+              </oj-bind-if>
+              <oj-bind-if test="[[item.data.isCompleted !== 'completed']]">
+                <div  style="color: grey; font-size: small;">
+                <oj-bind-text value="[[item.data.names]]"></oj-bind-text>
+                </div>
+                </oj-bind-if>
+              </div>
+                    <oj-button
+                      chroming="borderless"
+                      display="icons"
+                      on-oj-action="[[removeUser]]">
+                      <span slot="startIcon" class="oj-ux-ico-close"></span>
+                      Remove
+                    </oj-button>
+                    <oj-checkboxset
+                    id="enabledCheckboxset"
+                    value="{{isCompleted}}"
+                    on-click="[[testChecked]]"
+                    >
+                      <oj-option
+                      value="completed"
+                      >
+                      Completed
+                    </oj-option>
+                    </oj-checkboxset>
+            </li>
+          </template>
+        </oj-bind-for-each>
+          <oj-bind-text value="[[isCompleted]]"></oj-bind-text>
+    </div>
+    </oj-form-layout>
+  </div>
+</div>
